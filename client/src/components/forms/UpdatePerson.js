@@ -1,12 +1,11 @@
-import { gql, useMutation } from "@apollo/client";
+import { useMutation } from "@apollo/client";
 import { Button, Form, Input } from "antd";
 import { useEffect, useState } from "react";
-import { v4 as uuidv4 } from "uuid";
-import { ADD_PERSON, GET_PEOPLE } from "../../queries";
+import { GET_PEOPLE, UPDATE_PERSON } from "../../queries";
 
-const AddPerson = () => {
-  const [uuid] = useState(uuidv4());
-  const [addPerson] = useMutation(ADD_PERSON);
+const UpdatePerson = (props) => {
+  const { firstName, lastName, id } = props;
+  const [updatePerson] = useMutation(UPDATE_PERSON);
 
   const [form] = Form.useForm();
   const [, forceUpdate] = useState();
@@ -18,33 +17,26 @@ const AddPerson = () => {
   const onFinish = (values) => {
     const { firstName, lastName } = values;
 
-    addPerson({
+    updatePerson({
       variables: {
-        id: uuid,
+        id,
         firstName,
         lastName,
       },
-      update: (cache, { data: { addPerson } }) => {
-        const data = cache.readQuery({ query: GET_PEOPLE });
-        cache.writeQuery({
-          query: GET_PEOPLE,
-          data: {
-            ...data,
-            people: [...data.people, addPerson],
-          },
-        });
-      },
-      // This is the update function that will be called after the mutation is
     });
+    props.onButtonClick();
   };
+
   return (
     <Form
       form={form}
-      name="add-person-form"
+      name="update-person-form"
       layout="inline"
-      size="large"
       onFinish={onFinish}
-      style={{ marginBottom: "40px" }}
+      initialValues={{
+        firstName: firstName,
+        lastName: lastName,
+      }}
     >
       <Form.Item
         name="firstName"
@@ -58,23 +50,26 @@ const AddPerson = () => {
       >
         <Input placeholder="i.e. Jones" />
       </Form.Item>
-
       <Form.Item shouldUpdate={true}>
         {() => (
           <Button
             type="primary"
             htmlType="submit"
             disabled={
-              !form.isFieldsTouched(true) ||
+              (!form.isFieldTouched("firstName") &&
+                !form.isFieldTouched("lastName")) ||
               form.getFieldsError().filter(({ errors }) => errors.length).length
             }
           >
-            Add Person
+            Update Person
           </Button>
         )}
       </Form.Item>
+      <Button type="danger" onClick={props.onButtonClick}>
+        Cancel
+      </Button>
     </Form>
   );
 };
 
-export default AddPerson;
+export default UpdatePerson;
