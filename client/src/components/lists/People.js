@@ -1,5 +1,5 @@
 import { useQuery } from "@apollo/client";
-import { List } from "antd";
+import { List, PageHeader } from "antd";
 import { GET_PEOPLE } from "../../queries";
 import Person from "../listItems/Person";
 
@@ -7,6 +7,8 @@ const getStyles = () => ({
   list: {
     display: "flex",
     justifyContent: "center",
+    maxWidth: "100%",
+    margin: "50px",
   },
 });
 
@@ -19,15 +21,18 @@ const People = () => {
   // if (data) console.log("people data", data.people);
 
   return (
-    <List grid={{ gutter: 20, column: 1 }} style={styles.list}>
-      <List.Item>
-        {data.people.map(({ id, firstName, lastName }) => (
-          <List.Item key={id}>
-            <Person id={id} firstName={firstName} lastName={lastName} />
-          </List.Item>
-        ))}{" "}
-      </List.Item>
-    </List>
+    <>
+      <PageHeader title="Records" />
+      <List grid={{ gutter: 20, column: 1 }} style={styles.list}>
+        <List.Item>
+          {data.people.map(({ id, firstName, lastName }) => (
+            <List.Item key={id}>
+              <Person id={id} firstName={firstName} lastName={lastName} />
+            </List.Item>
+          ))}
+        </List.Item>
+      </List>
+    </>
   );
 };
 

@@ -39,3 +39,7 @@
     transform: rotate(360deg);
   }
 }
+
+.ant-card.ant-card-bordered {
+  margin-bottom: 100px;
+}
