@@ -9,6 +9,6 @@ const getStyles = () => ({
 const Title = () => {
   const styles = getStyles();
 
-  return <h1 style={styles.title}>My App</h1>;
+  return <h1 style={styles.title}>People and Cars</h1>;
 };
 export default Title;
