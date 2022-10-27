@@ -17,7 +17,7 @@ const Cars = (props) => {
   const { loading, error, data } = useQuery(GET_CARS);
   if (loading) return "Loading...";
   if (error) return `Error! ${error.message}`;
-  // if (data) console.log("cars data", data.cars);
+  if (data) console.log("cars data", data.cars);
 
   return (
     <List grid={{ gutter: 20, column: 1 }} style={styles.list}>

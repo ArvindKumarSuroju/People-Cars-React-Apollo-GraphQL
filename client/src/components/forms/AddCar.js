@@ -11,7 +11,8 @@ const getStyles = () => ({
 });
 
 const AddCar = () => {
-  const [uuid] = useState(uuidv4());
+  // const [uuid] = useState(uuidv4());
+  // const { data.length } = useQuery(GET_CARS);
   const [addCar] = useMutation(ADD_CAR);
   const styles = getStyles();
   const { Option } = Select;
@@ -34,7 +35,7 @@ const AddCar = () => {
 
     addCar({
       variables: {
-        id: uuid,
+        id: uuidv4(),
         year,
         make,
         model,

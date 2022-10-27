@@ -5,7 +5,7 @@ import { v4 as uuidv4 } from "uuid";
 import { ADD_PERSON, GET_PEOPLE } from "../../queries";
 
 const AddPerson = () => {
-  const [uuid] = useState(uuidv4());
+  // const [uuid] = useState(uuidv4());
   const [addPerson] = useMutation(ADD_PERSON);
 
   const [form] = Form.useForm();
@@ -20,7 +20,7 @@ const AddPerson = () => {
 
     addPerson({
       variables: {
-        id: uuid,
+        id: uuidv4(),
         firstName,
         lastName,
       },
